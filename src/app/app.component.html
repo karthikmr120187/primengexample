@@ -1,0 +1,44 @@
+<div class="ui-grid">
+  <!-- paginatorposition=true -pagiator position changes -->
+  <!-- autolayout properties to set width automatically -->
+  <!-- paginator properties is set pagination for the table -->
+  <!-- value properties is where we set the data -->
+  <!-- columns properties is to set the dynamic columns -->
+<!-- multiselect control is for the columns toggle feature -->
+  <!-- also i used resizeable column features  -->
+  <!-- also set only array for multiselect options property -->
+  <p-table [value]="servicedata" [autoLayout]="true" [columns]="selectedColumns" paginatorPosition="top" [paginator]="true" [rows]="20" [scrollable]="false" [resizableColumns]="true" [autoLayout]="true" [tableStyle]="{'table-layout':'auto'}" #dt>
+     
+      <ng-template pTemplate="caption">
+          <div style="text-align:left">
+              <label style="vertical-align: bottom;">Please select the columns needed:</label>
+              &nbsp;
+              <p-multiSelect [options]="selcols" [ngModel]="selectedColumns" (ngModelChange)='modelChange($event)'
+              optionLabel="header"
+                          selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}" defaultLabel="Choose Columns"></p-multiSelect>
+          </div>
+          <div style="text-align: right">        
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" #gb pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+          </div>
+      </ng-template>
+      
+      <!-- dynamic columns are set in the below html code -->
+      <ng-template pTemplate="header" let-columns >
+          <tr>
+              <th *ngFor="let col of columns" pResizableColumn>
+                  {{col.header}}
+              </th>
+          </tr>
+      </ng-template>
+      <!-- data binding is done in the below html code -->
+      <ng-template pTemplate="body" let-rowData let-columns="columns"  style="text-align: center;">  
+          <tr>
+              <td *ngFor="let col of columns" class="ui-resizable-column">
+                      {{rowData[col.field]}} 
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+  
+  </div>
